@@ -8,7 +8,7 @@ CREATE TABLE customer (
   password VARCHAR(30),
   cust_email VARCHAR(50),
   phone_number VARCHAR(15),
-  PRIMARY KEY(cust_ID)
+  PRIMARY KEY(cust_id)
 );
 
 

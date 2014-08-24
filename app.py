@@ -14,6 +14,18 @@ class User:
   def user_id(self):
     return str(self.user)
 
+def start():
+  global current_user
+  msg = "Hello and welcome to the App!"
+  title = "Real Estate App"
+  choices = ['Sign up', 'Login']
+  form = eg.choicebox(msg=msg, title=title, choices=choices)
+  if (form == 'Sign up'):
+    create_user()
+  elif (form == 'Login'):
+    login()
+
+
 #Starts the login process.
 def login():
   global current_user
@@ -98,6 +110,45 @@ def wrap(string):
     return string
   else: return string
 
+def create_user():
+  global current_user
+  msg = "Please enter the new account details:"
+  error_msg= ''
+  title = "Create New User"
+  fieldNames = ["First Name:", "Last Name:", "Phone Number:", "Email:", "Password:"]
+  fieldValues = []
+  form = eg.multenterbox(msg,title, fieldNames, values=fieldValues)
+
+  entries={}
+  for i in range(len(form)):
+    if form[i]:
+      entries[str(fieldNames[i])] = form[i].strip()
+
+  fname = form[0]
+  lname = form[1]
+  phone_number = form[2]
+  cust_email = form[3]
+  password = form[4]
+  fieldList = [fname, lname, phone_number, password, cust_email]
+  fields = "(fname, lname, phone_number, password, cust_email)"
+  query = "INSERT INTO customer" + fields + "VALUES ("
+  values = ''
+
+  for field in fieldList:
+    values += wrap(field)
+
+  values = values[:-2]
+  query += values + ")"
+
+  db.add_to_db(str(query))
+
+  query = "SELECT cust_id FROM customer where cust_email =" + "'"+str(cust_email)+"'"
+  row = db.get_from_db(query)
+  user_id = row[0]
+  current_user = User(user_id,fname,lname)
+
+  msg = "Thank you for logging in, " + current_user.name() + " \n Press ok to get started."
+  eg.msgbox(msg)
 
 #Need to validate user input before entering into DB
 def add_property():
@@ -213,5 +264,5 @@ def property_menu(prop_id):
 
 
 #Start login process:
-login()
+start()
 menu()
