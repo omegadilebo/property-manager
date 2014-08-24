@@ -159,15 +159,15 @@ def user_menu():
 
 #The main menu for the interface.
 def menu():
+  while True:
+    choices = ["View All Properties", "Add A Property", "Manage My Properties", "User settings"]
+    menu = eg.choicebox(msg="What do you want to do?", title="Property App:", choices=choices)
+    choice = menu.split()[0]
 
-  choices = ["View All Properties", "Add A Property", "Manage My Properties", "User settings"]
-  menu = eg.choicebox(msg="What do you want to do?", title="Property App:", choices=choices)
-  choice = menu.split()[0]
-
-  if (choice == "View"): property_list()
-  elif (choice == "Add"): add_property()
-  elif (choice == "Manage"): dashboard()
-  elif (choice == "User"): user_menu()
+    if (choice == "View"): property_list()
+    elif (choice == "Add"): add_property()
+    elif (choice == "Manage"): dashboard()
+    elif (choice == "User"): user_menu()
 
 #List of all offers on a property ordered by date
 def offer_history(prop_id):
